@@ -6,4 +6,4 @@ This repo will be a collection of problem sets that I come across either in book
 
 | Problem Set | Solution(s) |
 | - | - |
-| [100 DS Problems](https://github.com/GalvanizeOpenSource/100-ds-problems) | [100_ds_problems_solutions.py]('/solutions/100_ds_problems_solutions.py')
+| [100 DS Problems](https://github.com/GalvanizeOpenSource/100-ds-problems) | [100_ds_problems_solutions.py](/solutions/100_ds_problems_solutions.py)
