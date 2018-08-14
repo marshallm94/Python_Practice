@@ -160,27 +160,81 @@ group_1 = [(1, 0), (1, 1), (1, 2)]
 group_2 = [(2, 0), (-2, 1), (2, 2), (-2, 2)]
 group_3 = [(1, 0), (1, 1), (1, 0), (1, 1)]
 
-def pretty_math_2(list_of_tups):
+def simplify_polynomial(list_of_tups):
     string = ""
     for term in list_of_tups:
-        degree = term[1]
         coef = term[0]
+        degree = term[1]
         if len(str(np.sign(coef))) == 1:
             sign = "+"
         elif len(str(np.sign(coef))) == 2:
             sign = "-"
 
-        if degree == 0 and coef == 0:
+        if coef == 0:
             continue
-        elif degree == 0 and coef != 0:
-            current_string = f"{sign} {abs(coef)} "
-        elif degree != 0 and coef == 0:
+        elif abs(coef) == 1:
+            if degree == 0:
+                current_string = f" {sign} 1"
+            elif degree > 0:
+                if degree != 1:
+                    current_string = f" {sign} x^{degree}"
+                elif degree == 1:
+                    current_string = f" {sign} x"
+            elif degree < 0:
+                if degree != -1:
+                    current_string = f" {sign} (1/x^{degree})"
+                elif degree == -1:
+                    current_string = f" {sign} (1/x)"
+        elif abs(coef) != 1:
+            if degree == 0:
+                current_string = f" {sign} {abs(coef)}"
+            elif degree > 0:
+                if degree != 1:
+                    current_string = f" {sign} {abs(coef)}x^{degree}"
+                elif degree == 1:
+                    current_string = f" {sign} {abs(coef)}x"
+            elif degree < 0:
+                if degree != -1:
+                    current_string = f" {sign} (1/{abs(coef)}^{degree})"
+                elif degree == -1:
+                    current_string = f" {sign} (1/{abs(coef)})"
+        else:
             continue
-        elif degree != 0 and coef != 0:
-            current_string = f"{sign} {abs(coef)}x^{degree} "
-        string += current_string
-    return string[2:]
 
-print(pretty_math_2(group_1))
-print(pretty_math_2(group_2))
-print(pretty_math_2(group_3))
+        string += current_string
+
+    return string[3:]
+
+print(simplify_polynomial(group_1))
+print(simplify_polynomial(group_2))
+print(simplify_polynomial(group_3))
+
+print("\n")
+
+def combine_terms(list_of_tups):
+    list_of_tups.sort(key=lambda x: x[1])
+    out = []
+    cache = []
+    for x, tup in enumerate(list_of_tups):
+        coef = tup[0]
+        degree = tup[1]
+        if tup in cache or coef == 0:
+            cache.pop()
+            continue
+        else:
+            for other_tup in list_of_tups[x+1:]:
+                other_coef = other_tup[0]
+                other_degree = other_tup[1]
+                if other_degree == degree:
+                    cache.append(other_tup)
+                    coef += other_coef
+
+        out.append((coef, degree))
+    for coef, degree in out:
+        if coef == 0:
+            out.remove((coef, degree))
+    return out
+
+print(combine_terms(group_1))
+print(combine_terms(group_2))
+print(combine_terms(group_3))
