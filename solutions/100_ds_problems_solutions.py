@@ -233,7 +233,7 @@ def combine_terms(list_of_tups):
     for coef, degree in out:
         if coef == 0:
             out.remove((coef, degree))
-    return out
+    return simplify_polynomial(out)
 
 print(combine_terms(group_1))
 print(combine_terms(group_2))
