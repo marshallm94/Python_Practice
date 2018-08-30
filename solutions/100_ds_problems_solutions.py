@@ -203,13 +203,16 @@ def simplify_polynomial(list_of_tups):
 
         string += current_string
 
-    return string[3:]
+    if string[1] == "-":
+        return string[1:]
+    elif string[1] == "+":
+        return string[3:]
 
 print(simplify_polynomial(group_1))
 print(simplify_polynomial(group_2))
 print(simplify_polynomial(group_3))
 
-print("\n")
+print("\nNumber 9 (version 2) Output:")
 
 def combine_terms(list_of_tups):
     list_of_tups.sort(key=lambda x: x[1])
@@ -233,8 +236,62 @@ def combine_terms(list_of_tups):
     for coef, degree in out:
         if coef == 0:
             out.remove((coef, degree))
-    return simplify_polynomial(out)
+
+    # out.reverse()
+    # return simplify_polynomial(out)
+    return out
+
 
 print(combine_terms(group_1))
 print(combine_terms(group_2))
 print(combine_terms(group_3))
+
+print("\nNumber 10 Output:")
+
+def differentiate_polynomial(list_of_tups):
+    terms = combine_terms(list_of_tups)
+    derivative = []
+
+    for coef, deg in terms:
+        if deg == 0:
+            continue
+        else:
+            new_deg = deg - 1
+
+        new_coef = coef*deg
+
+        derivative.append((new_coef, new_deg))
+
+    return derivative
+
+print(differentiate_polynomial(group_1))
+print(differentiate_polynomial(group_2))
+print(differentiate_polynomial(group_3))
+
+print("\nNumber 11 Output:")
+
+language = {"number", "numbers", "ship", "ships",
+            "hip", "hips", "swear", "wear"}
+
+def split_into_words(word, language):
+    out = []
+    for i in language:
+        word_set = set(word.partition(i))
+        inter = word_set.intersection(language)
+        if len(inter) > 0:
+            string = " ".join(inter)
+        else:
+            continue
+
+        if string in out:
+            continue
+        else:
+            out.append(string)
+
+    length = max([len(i.split()) for i in out])
+
+    return [i for i in out if len(i.split()) == length]
+
+print(split_into_words('number', language))
+print(split_into_words('numbership', language))
+print(split_into_words('numbershipswear', language))
