@@ -1,5 +1,6 @@
 import numpy as np
 
+# General Programming
 # 1
 print("Number 1 Output:")
 test_dict = {'a': [1, 2, 3], 'b': [3, 2, 1]}
@@ -295,3 +296,36 @@ def split_into_words(word, language):
 print(split_into_words('number', language))
 print(split_into_words('numbership', language))
 print(split_into_words('numbershipswear', language))
+
+# Data Manipulation
+# 1
+arr = np.array((0,0,1,0,1))
+
+def binary_to_RB(arr):
+    return np.where(arr == 0, 'red', 'blue')
+
+print(binary_to_RB(arr))
+
+# 2
+x = np.arange(1,6)
+b = np.array((1,1,0,0,1))
+
+def binary_mean(x, b):
+    out_dict = {}
+    out_dict[1] = x[b == 1].mean()
+    out_dict[0] = x[b == 0].mean()
+    return out_dict
+
+print(binary_mean(x, b))
+
+# 3
+x = np.array([[0,1],[2,1]])
+
+def get_mean(arr, label):
+    if label == 'row':
+        return arr.mean(axis=1)
+    elif label == 'column':
+        return arr.mean(axis=0)
+
+print(get_mean(x, 'row'))
+print(get_mean(x, 'column'))
